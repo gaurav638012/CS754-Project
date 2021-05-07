@@ -3,7 +3,7 @@ function [denoised_img] = P4IP(y,beta,lambda,u_0,v_0,epsilon,siz)
 %   Detailed explanation goes here
 addpath(genpath('./bm3d'));
 u=u_0;v=v_0;
-lambda_step=1.005;
+lambda_step=1.5;
 temp=zeros(size(u_0));
 k=0;
 while 1
