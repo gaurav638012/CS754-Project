@@ -5,7 +5,7 @@ dim = size(u,1);
 one = ones(dim,1);
 b_term= lambda*(v-u)-one;
 
-x=b_term+(b_term.^2+4*lambda*y).^0.5;
+x=b_term+abs((b_term.^2+4*lambda*y)).^0.5;
 x=x/(2*lambda);
 
 
