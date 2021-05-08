@@ -17,7 +17,7 @@ class P4IP:
 
     def zero_init(self, iter = 100):
         self.u_0 = np.zeros(self.shape)
-        self.v_0 = np.zeros(self.shape)
+        self.v_0 = self.y.reshape(self.shape)
         self.iter = iter
     
     def reconstruct(self):
