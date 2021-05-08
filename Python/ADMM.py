@@ -13,32 +13,31 @@ def NNLog(x):
 def ADMM(y,Lambda,v,u,H=None):
     """
     Params - 
-        y       -  Noisy image in vectorized form with shape (n,1)
+        y       -  Noisy image in vectorized form with shape (n,)
         Lambda  -  Hyperparameter
         v,u     -  Hyperparams with same shape as image
         H       -  Operator matrix on  vectorized x. Default - Identity  
     """
     shape = v.shape
     siz = np.prod(shape)
-    v = np.ravel(v).reshape((siz,1))
-    u = np.ravel(u).reshape((siz,1))
+    v = np.ravel(v)
+    u = np.ravel(u)
 
     nnlog = np.vectorize(NNLog)
     
     def func(x):
-        Hx = np.matmul(H,x)    
-        return -np.matmul(y.T,nnlog(Hx)) + np.sum(Hx) + Lambda*(np.linalg.norm(x - v + u)**2)/2
+        Hx = H(x)   
+        return -np.matmul(y.reshape(-1,1).T,nnlog(Hx).reshape(-1,1))[0][0] + np.sum(Hx) + Lambda*(np.linalg.norm(x - v + u)**2)/2
     
     def grad(x):
-        assert(np.matmul(H,x).shape == y.shape)
-        return -np.matmul(H.T,y / np.matmul(H,x)) + np.sum(H,1,keepdims=True) + Lambda*(x - v + u)
+        return H(y / H(x)) + H(np.ones(siz)) + Lambda*(x - v + u)
 
     if H == None:
         res = Lambda*(v - u) - 1 + np.sqrt((Lambda*(v - u) - 1)**2 + 4*Lambda*y)
         res = res / (2 * Lambda)
         return res.reshape(shape)
     else:
-        x_0 = np.zeros((siz,1))
+        x_0 = np.random.rand(siz)
         res = scipy.optimize.minimize(func,x_0,method='L-BFGS-B',jac=grad)
         print(res.message)
         return res.x.reshape(shape)

@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import bm3d
 
-image = cv2.imread("lenna.jpg",0)
+image = cv2.imread("../images/lenna.jpg",0)
 
 print(*image.shape)
 
