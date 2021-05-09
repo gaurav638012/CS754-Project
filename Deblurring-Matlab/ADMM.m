@@ -1,4 +1,4 @@
-function [x_res] = ADMM(y,lambda,v,u,x_0,H)
+function [x_res] = ADMM(y,lambda,v,u,x_0,H,verbose)
 %ADMM Summary of this function goes here
 %   Detailed explanation goes here
 options = [];
@@ -8,6 +8,8 @@ options.Method = 'lbfgs';
 func = @(x) OptimFunc(x,y,v,u,H,lambda);
 
 [x_res,~,~,output] = minFunc(func,x_0,options);
-disp(output)
+if verbose == 1
+    disp(output)
+end
 end
 
