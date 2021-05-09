@@ -10,7 +10,7 @@ def NNLog(x):
     c = np.log(e) - 1.5      
     return np.log(x) if x >= e else  a*x*x + b*x + c 
 
-def ADMM(y,Lambda,v,u,H=None):
+def ADMM(y,Lambda,v,u,x_0,H=None):
     """
     Params - 
         y       -  Noisy image in vectorized form with shape (n,)
@@ -22,6 +22,7 @@ def ADMM(y,Lambda,v,u,H=None):
     siz = np.prod(shape)
     v = np.ravel(v)
     u = np.ravel(u)
+    x_0 = np.ravel(x_0)
 
     nnlog = np.vectorize(NNLog)
     
@@ -37,7 +38,6 @@ def ADMM(y,Lambda,v,u,H=None):
         res = res / (2 * Lambda)
         return res.reshape(shape)
     else:
-        x_0 = np.random.rand(siz)
         res = scipy.optimize.minimize(func,x_0,method='L-BFGS-B',jac=grad)
         print(res.message)
         return res.x.reshape(shape)

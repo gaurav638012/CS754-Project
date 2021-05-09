@@ -1,0 +1,16 @@
+addpath(genpath(pwd))
+clear;
+clc;
+close all;
+
+filter = fspecial('gaussian',[25 25],1.6);
+%filter = fspecial('average',[9 9]);
+%filter = custom TODO;
+peak = 2;
+img = im2double(rgb2gray(imread('images/peper.png')));
+
+blurred_img = imfilter(img,filter);
+
+y = poissrnd(
+
+H = @(x) FilterFunc(x,filter,size(img));
