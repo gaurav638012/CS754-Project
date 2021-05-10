@@ -45,3 +45,4 @@ end
 
 figure('Name','Lambda Tuning');
 plot(x_vals,y_vals);
+%set(gca,'XScale','log'); %If logspace is used uncomment this

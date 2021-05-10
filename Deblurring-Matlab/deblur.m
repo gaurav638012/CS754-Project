@@ -1,4 +1,4 @@
-function [rec,PSNR] = deblur(im_path,peak,kernel_type,verbose)
+function [rec_clipped,PSNR] = deblur(im_path,peak,kernel_type,verbose)
 %DEBLUR Summary of this function goes here
 %   Detailed explanation goes here
 addpath(genpath(pwd));
@@ -37,18 +37,14 @@ epsilon = 1e-5;
 
 rec = P4IP(y,beta,lambda,lambda_step,size(img),H,max_iter,epsilon,verbose);
 
-figure('Name', 'Reconstruction_plain');
-imshow(rec);
-
-figure('Name','Reconstruction_clipped_normalised');
+figure('Name','Reconstruction');
 rec_clipped = rec;
 rec_clipped(rec_clipped > 1) = 1;
 rec_clipped = rec_clipped/max(max(rec_clipped));
 imshow(rec_clipped);
 
 fprintf("Noisy image PSNR: %f\n",getPSNR(y,img));
-fprintf("Reconstructed image PSNR unnormalised: %f\n",getPSNR(rec,img));
-fprintf("Reconstructed image PSNR clipped: %f\n",getPSNR(rec_clipped,img));
+fprintf("Reconstructed image PSNR : %f\n",getPSNR(rec_clipped,img));
 
 PSNR = getPSNR(rec_clipped,img);
 

@@ -4,7 +4,7 @@ clc;
 
 str = "kernel,image,peak,PSNR\n";
 
-for kernel_type = ["custom"]
+for kernel_type = ["gaussian","average","custom"]
     for image = ["sat","pepper","cameraman","ridges","house","curve"]
         for peak = [1]
             [rec, PSNR] = deblur(sprintf("images/%s.png",image),peak,kernel_type,0);
@@ -13,4 +13,4 @@ for kernel_type = ["custom"]
     end
 end
 
-fprintf(s);
+fprintf(str);

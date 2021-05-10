@@ -3,8 +3,8 @@ clear;
 clc;
 close all;
 
-%filter = fspecial('gaussian',[25 25],1.6);
-filter = fspecial('average',[9 9]);
+filter = fspecial('gaussian',[25 25],1.6);
+%filter = fspecial('average',[9 9]);
 %%%%Custom filter%%%%%%%
 %filter = zeros(15);
 %for i=-7:7
@@ -15,7 +15,7 @@ filter = fspecial('average',[9 9]);
 %filter = filter/sum(filter,'all');
 %%%%%%%%%%%%%%%%%%%%%%%%
 peak = 1;
-img = im2double(rgb2gray(imread('images/cameraman.png')));
+img = im2double(rgb2gray(imread('images/ridges.png')));
 figure('Name','Original');
 imshow(img);
 
@@ -31,13 +31,13 @@ beta = 0.6;
 lambda = 440;
 lambda_step = 1.065;
 max_iter = 70;
-epsilon = 1e-4;
+epsilon = 1e-5;
 verbose = 1;
 
 rec = P4IP(y,beta,lambda,lambda_step,size(img),H,max_iter,epsilon,verbose);
 rec = rec / max(max(rec));
 
-figure('Name','Reconstructed');
+figure('Name','Reconstruction');
 imshow(rec);
 
 fprintf("Noisy image PSNR: %f\n",getPSNR(y,img));
