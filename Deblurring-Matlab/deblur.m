@@ -1,4 +1,4 @@
-function [rec_clipped,PSNR] = deblur(im_path,peak,kernel_type,verbose)
+function [rec,PSNR] = deblur(im_path,peak,kernel_type,verbose)
 %DEBLUR Summary of this function goes here
 %   Detailed explanation goes here
 addpath(genpath(pwd));
@@ -21,12 +21,12 @@ img = im2double(rgb2gray(imread(im_path)));
 figure('Name','Original');
 imshow(img);
 
+img = img*peak;
 blurred_img = imfilter(img,filter);
-y = poissrnd(blurred_img*peak);
-y = y / max(max(y));
+y = poissrnd(blurred_img);
 
 figure('Name','Noisy');
-imshow(y);
+imshow(y/max(max(y)));
 
 H = @(x) FilterFunc(x,filter,size(img));
 beta = 0.6;
@@ -38,15 +38,12 @@ epsilon = 1e-5;
 rec = P4IP(y,beta,lambda,lambda_step,size(img),H,max_iter,epsilon,verbose);
 
 figure('Name','Reconstruction');
-rec_clipped = rec;
-rec_clipped(rec_clipped > 1) = 1;
-rec_clipped = rec_clipped/max(max(rec_clipped));
-imshow(rec_clipped);
+imshow(rec / max(max(rec)));
 
 fprintf("Noisy image PSNR: %f\n",getPSNR(y,img));
-fprintf("Reconstructed image PSNR : %f\n",getPSNR(rec_clipped,img));
+fprintf("Reconstructed image PSNR : %f\n",getPSNR(rec,img));
 
-PSNR = getPSNR(rec_clipped,img);
+PSNR = getPSNR(rec,img);
 
 end
 

@@ -4,12 +4,12 @@ function [x] = P4IP(y,beta,lambda,lambda_step,shape,H,max_iter,epsilon,verbose)
 u = zeros(shape);
 nnn = 0.002*randn(size(y));
 x = reshape(H(reshape(H(y),shape) + nnn.*(nnn>=0)),shape);
-x = x/max(max(x));
+x = x;
 
 v = x;
 
 figure("Name","Initial guess");
-imshow(x);
+imshow(x/max(max(x)));
 
 for k= 1:max_iter
     x_prev = x;

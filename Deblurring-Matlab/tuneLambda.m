@@ -13,10 +13,9 @@ imshow(img);
 
 blurred_img = imfilter(img,filter);
 y = poissrnd(blurred_img*peak);
-y = y / max(max(y));
 
 figure('Name','Noisy');
-imshow(y);
+imshow(y/max(max(y)));
 
 H = @(x) FilterFunc(x,filter,size(img));
 lambda_step = 1.065;
@@ -26,15 +25,14 @@ verbose = 0;
 
 beta = peak^-0.75;
 
-y_vals = zeros(9,1);
 x_vals = linspace(290,450,10); %% Or logspace for rough tuning
+y_vals = zeros(length(x_vals),1);
 i = 1;
 for lambda = x_vals
     fprintf("Lambda = %f\n",lambda);
     rec = P4IP(y,beta,lambda,lambda_step,size(img),H,max_iter,epsilon,verbose);
-    rec = rec / max(max(rec));
     figure('Name',sprintf('Reconstruction at lambda = %f',lambda));
-    imshow(rec);
+    imshow(rec/max(max(rec)));
 
     fprintf("Noisy image PSNR: %f\n",getPSNR(y,img));
     fprintf("Reconstructed image PSNR: %f\n",getPSNR(rec,img));
