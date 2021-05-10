@@ -4,12 +4,18 @@ clc;
 close all;
 
 %filter = fspecial('gaussian',[25 25],1.6);
-filter = fspecial('average',[9 9]);
-%filter = zeros(15)
-for i=-7:7
-    for j=-7:&
+%filter = fspecial('average',[9 9]);
+%%%%Custom filter%%%%%%%
+%filter = zeros(15);
+%for i=-7:7
+%    for j=-7:7
+%        filter(i+8,j+8) = 1/(i*i + j*j + 1);
+    end
+end
+filter = filter/sum(filter,'all');
+%%%%%%%%%%%%%%%%%%%%%%%%
 peak = 1;
-img = im2double(rgb2gray(imread('images/ridges.png')));
+img = im2double(rgb2gray(imread('images/pepper.png')));
 figure('Name','Original');
 imshow(img);
 

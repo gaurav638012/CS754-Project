@@ -26,7 +26,7 @@ verbose = 0;
 lambda_vals = linspace(450,440,2);
 
 x_vals = [0.5 0.6 0.7 0.9 1 1.2]; %% Or logspace for tuning
-y_vals = zeros(length(x_vals),length(lambda_vals)   );
+y_vals = zeros(length(x_vals),length(lambda_vals));
 j = 1;
 for lambda = lambda_vals
     i = 1;
