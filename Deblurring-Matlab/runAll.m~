@@ -1,0 +1,8 @@
+clear;
+close all;
+clc;
+
+s = "";
+
+for 
+for images = ["pepper","cameraman","ridges","sat","house","curve","flag"]

@@ -2,10 +2,14 @@ function [x] = P4IP(y,beta,lambda,lambda_step,shape,H,max_iter,epsilon,verbose)
 %P4IP Summary of this function goes here
 %   Detailed explanation goes here
 u = zeros(shape);
-v = y;
-nnn = 0.2*randn(size(y));
-x = y + nnn.*(nnn>=0);
+nnn = 0.002*randn(size(y));
+x = reshape(H(reshape(H(y),shape) + nnn.*(nnn>=0)),shape);
 x = x/max(max(x));
+
+v = x;
+
+figure("Name","Initial guess");
+imshow(x);
 
 for k= 1:max_iter
     x_prev = x;
@@ -13,7 +17,7 @@ for k= 1:max_iter
     v_prev = v;
     temp_x = ADMM(y(:),lambda,v_prev(:),u_prev(:),x_prev(:),H,verbose);
     x = reshape(temp_x,shape);
-    v = BM3D(x + u_prev,sqrt(beta/lambda));
+    v = BM3D(x + u_prev,sqrt(beta/lambda),'np',BM3DProfile.ALL_STAGES);
     u = u_prev + x - v;
     
     lambda = lambda*lambda_step;

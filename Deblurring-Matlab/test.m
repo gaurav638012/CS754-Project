@@ -30,8 +30,8 @@ H = @(x) FilterFunc(x,filter,size(img));
 beta = 0.6;
 lambda = 440;
 lambda_step = 1.065;
-max_iter = 75;
-epsilon = 1e-7;
+max_iter = 70;
+epsilon = 1e-4;
 verbose = 1;
 
 rec = P4IP(y,beta,lambda,lambda_step,size(img),H,max_iter,epsilon,verbose);
